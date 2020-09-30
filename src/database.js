@@ -1,17 +1,18 @@
-const mongoose = require("mongoose");
-const logger = require('./libs/Logger')
-require("dotenv/config");
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+import * as logger from './libs/Logger'
 
-const dbURL = process.env.DB_URL || "";
+dotenv.config()
+const db_url = process.env.DB_URL || ""
 
-mongoose.connect(dbURL, {
+mongoose.connect(db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex:true
 })
 .then((db) => {
-    logger.logSuccess('DB is connected succefully.')
+    logger.success("DB is connected succesfully");
 })
 .catch((error) => {
-    logger.logError("Something went wrong.. not connection to DB :-(");
+    logger.error(error)
 })
