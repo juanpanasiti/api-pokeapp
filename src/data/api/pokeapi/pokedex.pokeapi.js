@@ -1,5 +1,6 @@
 import * as logger from "../../../libs/Logger";
 import * as langSelect from '../../../libs/LanguageUtils'
+import * as pokemonPokeAPI from './pokemon.pokeapi'
 import axios from 'axios'
 
 const url = 'https://pokeapi.co/api/v2/pokedex/'
@@ -32,9 +33,13 @@ export const getInfoByUrl = async (pokedexUrl,lang) => {
             id: apiResult.id,
             name: langSelect.getVersion(apiResult.names,'name',lang),
             description: langSelect.getVersion(apiResult.descriptions,'description',lang),
-            pokemon_entries: apiResult.pokemon_entries,
+            pokemonEntries: [],
             region: apiResult.region,
-            version_groups: apiResult.version_groups
+            versionGroups: apiResult.version_groups
+        }
+
+        for (const pokemonEntry of apiResult.pokemon_entries) {
+            info.pokemonEntries.push(await pokemonPokeAPI.getSpecieInfo(pokemonEntry.pokemon_species.url))
         }
         
         return(info)

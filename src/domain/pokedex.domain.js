@@ -22,3 +22,13 @@ export const getList = async (lang) => {
         return pokedexes
     }
 }//getList()
+
+export const getPokedexInfo = async (pokedexId,lang) => {
+    try {
+        const url = 'https://pokeapi.co/api/v2/pokedex/'+pokedexId
+        return await pokedexApi.getInfoByUrl(url,lang)
+    } catch (error) {
+        logger.error(error)
+        return error
+    }
+}
